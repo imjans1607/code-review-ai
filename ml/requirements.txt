@@ -1,0 +1,14 @@
+# ML / model-track deps. These are for the Google Colab runtime, NOT the local
+# machine (the local RTX 3050 is intentionally kept free — see TASKS).
+# Versions left loose-ish because Colab pins torch/CUDA to its own runtime;
+# transformers/datasets track that. Pin exactly once we lock a Colab image.
+# transformers pinned: 4.5x / 5.x break the CodeT5+ tokenizer
+# ("Input must be a List[Union[str, AddedToken]]").
+transformers==4.44.2
+datasets>=2.20
+accelerate>=0.33
+evaluate>=0.4
+sacrebleu>=2.4
+# CodeBLEU (tree-sitter based). Package name may vary; confirm during Phase 2.
+# codebleu>=0.7
+huggingface_hub>=0.24

@@ -1,0 +1,14 @@
+{
+  "date_utc": "2026-11-18T04:03:35+00:00",
+  "semgrep_version": "1.186.0",
+  "configs": [
+    "p/python",
+    "p/javascript",
+    "p/owasp-top-ten",
+    "p/secrets"
+  ],
+  "config_set": "baseline",
+  "suite": "holdout",
+  "platform": "Windows-10-10.0.26300-SP0",
+  "scan_seconds": 6.6
+}

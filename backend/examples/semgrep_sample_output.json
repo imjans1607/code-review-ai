@@ -1,0 +1,115 @@
+{
+  "version": "1.80.0",
+  "results": [
+    {
+      "check_id": "python.lang.security.audit.formatted-sql-query.formatted-sql-query",
+      "path": "examples/vulnerable_samples/app.py",
+      "start": { "line": 11, "col": 5 },
+      "end": { "line": 11, "col": 66 },
+      "extra": {
+        "message": "Detected SQL statement that is built with string concatenation of a user-controlled value. This can lead to SQL injection. Use a parameterized query instead.",
+        "severity": "ERROR",
+        "lines": "    cur.execute(\"SELECT * FROM users WHERE name = '\" + username + \"'\")",
+        "metadata": {
+          "cwe": ["CWE-89: Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')"],
+          "owasp": ["A03:2021 - Injection"],
+          "category": "security",
+          "confidence": "HIGH",
+          "impact": "HIGH"
+        }
+      }
+    },
+    {
+      "check_id": "generic.secrets.security.detected-generic-api-key.detected-generic-api-key",
+      "path": "examples/vulnerable_samples/app.py",
+      "start": { "line": 5, "col": 1 },
+      "end": { "line": 5, "col": 52 },
+      "extra": {
+        "message": "A hard-coded API key was detected. Store secrets in environment variables or a secrets manager instead of source code.",
+        "severity": "ERROR",
+        "lines": "API_KEY = \"EXAMPLE_FAKE_KEY_DO_NOT_USE\"",
+        "metadata": {
+          "cwe": ["CWE-798: Use of Hard-coded Credentials"],
+          "owasp": ["A07:2021 - Identification and Authentication Failures"],
+          "category": "security",
+          "confidence": "HIGH",
+          "impact": "HIGH"
+        }
+      }
+    },
+    {
+      "check_id": "python.lang.security.audit.path-traversal.path-traversal-open.path-traversal-open",
+      "path": "examples/vulnerable_samples/app.py",
+      "start": { "line": 24, "col": 10 },
+      "end": { "line": 24, "col": 20 },
+      "extra": {
+        "message": "Detected a file path built from a user-controlled value opened without validation. This can allow path traversal. Validate or sanitize the path before opening.",
+        "severity": "ERROR",
+        "lines": "    with open(path) as fh:",
+        "metadata": {
+          "cwe": ["CWE-22: Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"],
+          "owasp": ["A01:2021 - Broken Access Control"],
+          "category": "security",
+          "confidence": "MEDIUM",
+          "impact": "MEDIUM"
+        }
+      }
+    },
+    {
+      "check_id": "python.lang.security.audit.eval-detected.eval-detected",
+      "path": "examples/vulnerable_samples/app.py",
+      "start": { "line": 17, "col": 12 },
+      "end": { "line": 17, "col": 23 },
+      "extra": {
+        "message": "Detected the use of eval() on a caller-supplied value. This can lead to arbitrary code execution. Avoid eval(); use a safe parser instead.",
+        "severity": "WARNING",
+        "lines": "    return eval(expr)",
+        "metadata": {
+          "cwe": ["CWE-95: Improper Neutralization of Directives in Dynamically Evaluated Code ('Eval Injection')"],
+          "owasp": ["A03:2021 - Injection"],
+          "category": "security",
+          "confidence": "HIGH",
+          "impact": "HIGH"
+        }
+      }
+    },
+    {
+      "check_id": "javascript.browser.security.insecure-document-method.insecure-document-method",
+      "path": "examples/vulnerable_samples/handler.js",
+      "start": { "line": 5, "col": 3 },
+      "end": { "line": 5, "col": 47 },
+      "extra": {
+        "message": "User-controlled data written to innerHTML can lead to cross-site scripting (XSS). Use textContent or a sanitizer instead.",
+        "severity": "WARNING",
+        "lines": "  document.getElementById(\"out\").innerHTML = userInput;",
+        "metadata": {
+          "cwe": ["CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"],
+          "owasp": ["A03:2021 - Injection"],
+          "category": "security",
+          "confidence": "MEDIUM",
+          "impact": "MEDIUM"
+        }
+      }
+    },
+    {
+      "check_id": "javascript.lang.security.audit.eval-detected.eval-detected",
+      "path": "examples/vulnerable_samples/handler.js",
+      "start": { "line": 10, "col": 10 },
+      "end": { "line": 10, "col": 24 },
+      "extra": {
+        "message": "Detected the use of eval() on a caller-supplied value. This can lead to arbitrary code execution. Avoid eval().",
+        "severity": "WARNING",
+        "lines": "  return eval(formula);",
+        "metadata": {
+          "cwe": ["CWE-95: Improper Neutralization of Directives in Dynamically Evaluated Code ('Eval Injection')"],
+          "owasp": ["A03:2021 - Injection"],
+          "category": "security",
+          "confidence": "HIGH",
+          "impact": "HIGH"
+        }
+      }
+    }
+  ],
+  "errors": [],
+  "paths": { "scanned": ["examples/vulnerable_samples/app.py", "examples/vulnerable_samples/handler.js"] }
+}

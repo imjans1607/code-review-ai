@@ -1,0 +1,134 @@
+rules:
+  # DOM XSS: a function parameter or a browser-controlled value written into
+  # innerHTML / document.write.
+  #
+  # The registry packs flag some framework-sourced cases (e.g. Express's
+  # req.query) but not a plain function parameter or location.hash/search. A
+  # parameter is not always attacker-controlled, so confidence is LOW and
+  # findings are Medium severity.
+  - id: codereview.javascript.dom-xss-from-param-or-url
+    mode: taint
+    languages: [javascript, typescript]
+    severity: WARNING
+    message: >-
+      A function parameter or URL-controlled value is written into the DOM as
+      HTML. If it can contain attacker-controlled text, this is cross-site
+      scripting (XSS). Use textContent, or sanitise the value first (for example
+      DOMPurify.sanitize()).
+    metadata:
+      category: security
+      cwe:
+        - "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+      owasp:
+        - "A03:2021 - Injection"
+      confidence: LOW
+      likelihood: MEDIUM
+      impact: MEDIUM
+      source: codereview-custom
+    pattern-sources:
+      - pattern: location.hash
+      - pattern: location.search
+      - patterns:
+          - pattern-either:
+              - pattern-inside: |
+                  function $F(..., $P, ...) {
+                    ...
+                  }
+              - pattern-inside: |
+                  ($P, ...) => {
+                    ...
+                  }
+          - pattern: $P
+    pattern-sinks:
+      - patterns:
+          - pattern: $EL.innerHTML = $X
+          - focus-metavariable: $X
+      - patterns:
+          - pattern: document.write($X)
+          - focus-metavariable: $X
+    pattern-sanitizers:
+      - pattern: DOMPurify.sanitize(...)
+      - patterns:
+          - pattern: $FN(...)
+          - metavariable-regex:
+              metavariable: $FN
+              regex: (?i)^(escape|sanitize|sanitise|encode|purify)\w*$
+
+  # Code injection: a function parameter compiled into a function.
+  - id: codereview.javascript.function-constructor-from-parameter
+    mode: taint
+    languages: [javascript, typescript]
+    severity: WARNING
+    message: >-
+      A function parameter is compiled into code with the Function constructor.
+      If the value can be influenced by a user, this allows arbitrary code
+      execution (eval injection). Avoid building code from strings; parse data
+      with JSON.parse() or use a lookup table of allowed operations.
+    metadata:
+      category: security
+      cwe:
+        - "CWE-95: Improper Neutralization of Directives in Dynamically Evaluated Code ('Eval Injection')"
+      owasp:
+        - "A03:2021 - Injection"
+      confidence: LOW
+      likelihood: MEDIUM
+      impact: MEDIUM
+      source: codereview-custom
+    pattern-sources:
+      - patterns:
+          - pattern-either:
+              - pattern-inside: |
+                  function $F(..., $P, ...) {
+                    ...
+                  }
+              - pattern-inside: |
+                  ($P, ...) => {
+                    ...
+                  }
+          - pattern: $P
+    pattern-sinks:
+      - patterns:
+          - pattern: new Function($X, ...)
+          - focus-metavariable: $X
+
+  # Path traversal: a function parameter built into a path and read from disk.
+  - id: codereview.javascript.path-from-parameter-reaches-file-read
+    mode: taint
+    languages: [javascript, typescript]
+    severity: WARNING
+    message: >-
+      A file path built from a function parameter reaches a file-read call. If
+      the value can be influenced by a user it may contain "../" and escape the
+      intended directory (path traversal). Reduce it with path.basename(), or
+      resolve the path and verify it stays inside the base directory.
+    metadata:
+      category: security
+      cwe:
+        - "CWE-22: Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
+      owasp:
+        - "A01:2021 - Broken Access Control"
+      confidence: LOW
+      likelihood: MEDIUM
+      impact: MEDIUM
+      source: codereview-custom
+    pattern-sources:
+      - patterns:
+          - pattern-either:
+              - pattern-inside: |
+                  function $F(..., $P, ...) {
+                    ...
+                  }
+              - pattern-inside: |
+                  ($P, ...) => {
+                    ...
+                  }
+          - pattern: $P
+    pattern-sinks:
+      - patterns:
+          - pattern: fs.readFileSync($PATH, ...)
+          - focus-metavariable: $PATH
+      - patterns:
+          - pattern: fs.readFile($PATH, ...)
+          - focus-metavariable: $PATH
+    pattern-sanitizers:
+      - pattern: path.basename(...)

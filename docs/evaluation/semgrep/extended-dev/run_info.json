@@ -1,0 +1,24 @@
+{
+  "date_utc": "2026-11-18T04:03:23+00:00",
+  "semgrep_version": "1.186.0",
+  "configs": [
+    "p/python",
+    "p/javascript",
+    "p/owasp-top-ten",
+    "p/secrets",
+    "p/security-audit",
+    "p/expressjs",
+    "p/gitleaks",
+    "r/javascript.browser.security.eval-detected.eval-detected",
+    "r/javascript.lang.security.audit.sqli.node-mysql-sqli.node-mysql-sqli",
+    "r/python.lang.security.audit.exec-detected.exec-detected",
+    "r/python.sqlalchemy.security.sqlalchemy-execute-raw-query.sqlalchemy-execute-raw-query",
+    "r/python.lang.security.audit.formatted-sql-query.formatted-sql-query",
+    "r/python.flask.security.xss.audit.explicit-unescape-with-markup.explicit-unescape-with-markup",
+    "backend/app/security/rules/"
+  ],
+  "config_set": "extended",
+  "suite": "dev",
+  "platform": "Windows-10-10.0.26300-SP0",
+  "scan_seconds": 12.0
+}

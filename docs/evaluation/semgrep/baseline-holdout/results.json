@@ -1,0 +1,502 @@
+{
+  "meta": {
+    "date_utc": "2026-11-18T04:03:35+00:00",
+    "semgrep_version": "1.186.0",
+    "configs": [
+      "p/python",
+      "p/javascript",
+      "p/owasp-top-ten",
+      "p/secrets"
+    ],
+    "config_set": "baseline",
+    "suite": "holdout",
+    "labels_sha256": "3ddaed4a7e0544fcb43a6cea6e98547b6a95a0ca7a7c6fadc2f9efe4fa6d2f5a",
+    "platform": "Windows-10-10.0.26300-SP0"
+  },
+  "metrics": {
+    "counts": {
+      "cases": 67,
+      "vulnerable_cases": 38,
+      "safe_cases": 29,
+      "true_positives": 10,
+      "false_negatives": 28,
+      "false_positives": 2,
+      "false_positives_in_target_classes": 2,
+      "duplicate_findings_on_detected_sinks": 5,
+      "class_correct_detections": 9,
+      "findings_in_suite_files": 17
+    },
+    "precision": {
+      "value": 0.833,
+      "successes": 10,
+      "n": 12,
+      "ci95": [
+        0.552,
+        0.953
+      ]
+    },
+    "precision_target_classes_only": {
+      "value": 0.833,
+      "successes": 10,
+      "n": 12,
+      "ci95": [
+        0.552,
+        0.953
+      ]
+    },
+    "recall": {
+      "value": 0.263,
+      "successes": 10,
+      "n": 38,
+      "ci95": [
+        0.15,
+        0.42
+      ]
+    },
+    "recall_class_correct": {
+      "value": 0.237,
+      "successes": 9,
+      "n": 38,
+      "ci95": [
+        0.13,
+        0.392
+      ]
+    },
+    "safe_cases_with_false_positives": {
+      "value": 0.069,
+      "successes": 2,
+      "n": 29,
+      "ci95": [
+        0.019,
+        0.22
+      ]
+    },
+    "by_class": {
+      "sqli": {
+        "recall": {
+          "value": 0.25,
+          "successes": 2,
+          "n": 8,
+          "ci95": [
+            0.071,
+            0.591
+          ]
+        },
+        "false_positives": 0
+      },
+      "xss": {
+        "recall": {
+          "value": 0.333,
+          "successes": 3,
+          "n": 9,
+          "ci95": [
+            0.121,
+            0.646
+          ]
+        },
+        "false_positives": 0
+      },
+      "secret": {
+        "recall": {
+          "value": 0.125,
+          "successes": 1,
+          "n": 8,
+          "ci95": [
+            0.022,
+            0.471
+          ]
+        },
+        "false_positives": 0
+      },
+      "path_traversal": {
+        "recall": {
+          "value": 0.143,
+          "successes": 1,
+          "n": 7,
+          "ci95": [
+            0.026,
+            0.513
+          ]
+        },
+        "false_positives": 2
+      },
+      "eval": {
+        "recall": {
+          "value": 0.5,
+          "successes": 3,
+          "n": 6,
+          "ci95": [
+            0.188,
+            0.812
+          ]
+        },
+        "false_positives": 0
+      }
+    },
+    "recall_by_language": {
+      "javascript": {
+        "value": 0.158,
+        "successes": 3,
+        "n": 19,
+        "ci95": [
+          0.055,
+          0.376
+        ]
+      },
+      "python": {
+        "value": 0.368,
+        "successes": 7,
+        "n": 19,
+        "ci95": [
+          0.191,
+          0.59
+        ]
+      }
+    },
+    "recall_by_source": {
+      "bare_param": {
+        "value": 0.0,
+        "successes": 0,
+        "n": 10,
+        "ci95": [
+          0.0,
+          0.278
+        ]
+      },
+      "browser_source": {
+        "value": 0.0,
+        "successes": 0,
+        "n": 2,
+        "ci95": [
+          0.0,
+          0.658
+        ]
+      },
+      "framework": {
+        "value": 0.5,
+        "successes": 9,
+        "n": 18,
+        "ci95": [
+          0.29,
+          0.71
+        ]
+      },
+      "literal": {
+        "value": 0.125,
+        "successes": 1,
+        "n": 8,
+        "ci95": [
+          0.022,
+          0.471
+        ]
+      }
+    },
+    "targets": {
+      "precision": 0.9,
+      "recall": 0.85,
+      "precision_met": false,
+      "recall_met": false
+    },
+    "missed": [
+      {
+        "case": "hj-eval-settimeout-string",
+        "class": "eval",
+        "source": "bare_param",
+        "language": "javascript",
+        "note": "function argument passed to setTimeout as a string"
+      },
+      {
+        "case": "hj-eval-localstorage",
+        "class": "eval",
+        "source": "browser_source",
+        "language": "javascript",
+        "note": "stored script text passed to eval"
+      },
+      {
+        "case": "hj-path-createreadstream",
+        "class": "path_traversal",
+        "source": "framework",
+        "language": "javascript",
+        "note": "query value streamed straight from disk"
+      },
+      {
+        "case": "hj-path-res-download",
+        "class": "path_traversal",
+        "source": "framework",
+        "language": "javascript",
+        "note": "query value passed to res.download"
+      },
+      {
+        "case": "hj-path-writefile",
+        "class": "path_traversal",
+        "source": "framework",
+        "language": "javascript",
+        "note": "request body decides where a file is written"
+      },
+      {
+        "case": "hj-secret-google-key",
+        "class": "secret",
+        "source": "literal",
+        "language": "javascript",
+        "note": "Google API key in source"
+      },
+      {
+        "case": "hj-secret-sendgrid",
+        "class": "secret",
+        "source": "literal",
+        "language": "javascript",
+        "note": "SendGrid API key in source"
+      },
+      {
+        "case": "hj-secret-npm-token",
+        "class": "secret",
+        "source": "literal",
+        "language": "javascript",
+        "note": "npm access token in source"
+      },
+      {
+        "case": "hj-secret-db-url-password",
+        "class": "secret",
+        "source": "literal",
+        "language": "javascript",
+        "note": "database password embedded in a connection URL"
+      },
+      {
+        "case": "hj-sqli-pg-template",
+        "class": "sqli",
+        "source": "framework",
+        "language": "javascript",
+        "note": "route parameter in a template-literal query"
+      },
+      {
+        "case": "hj-sqli-mysql2-concat",
+        "class": "sqli",
+        "source": "bare_param",
+        "language": "javascript",
+        "note": "function argument concatenated into a query"
+      },
+      {
+        "case": "hj-sqli-knex-raw",
+        "class": "sqli",
+        "source": "bare_param",
+        "language": "javascript",
+        "note": "function argument concatenated into knex.raw"
+      },
+      {
+        "case": "hj-xss-jquery-html-hash",
+        "class": "xss",
+        "source": "browser_source",
+        "language": "javascript",
+        "note": "location.hash passed to jQuery .html()"
+      },
+      {
+        "case": "hj-xss-insert-adjacent-html",
+        "class": "xss",
+        "source": "bare_param",
+        "language": "javascript",
+        "note": "function argument passed to insertAdjacentHTML"
+      },
+      {
+        "case": "hj-xss-outerhtml",
+        "class": "xss",
+        "source": "bare_param",
+        "language": "javascript",
+        "note": "function argument assigned to outerHTML"
+      },
+      {
+        "case": "hj-xss-react-state",
+        "class": "xss",
+        "source": "bare_param",
+        "language": "javascript",
+        "note": "component state rendered with dangerouslySetInnerHTML"
+      },
+      {
+        "case": "hp-eval-compile-exec",
+        "class": "eval",
+        "source": "bare_param",
+        "language": "python",
+        "note": "function argument compiled and executed"
+      },
+      {
+        "case": "hp-path-fastapi-fileresponse",
+        "class": "path_traversal",
+        "source": "framework",
+        "language": "python",
+        "note": "FastAPI path parameter built into a path and served"
+      },
+      {
+        "case": "hp-path-tar-extractall",
+        "class": "path_traversal",
+        "source": "bare_param",
+        "language": "python",
+        "note": "archive extracted without checking member paths"
+      },
+      {
+        "case": "hp-path-open-concat",
+        "class": "path_traversal",
+        "source": "bare_param",
+        "language": "python",
+        "note": "function argument concatenated into a path and opened"
+      },
+      {
+        "case": "hp-secret-google-api-key",
+        "class": "secret",
+        "source": "literal",
+        "language": "python",
+        "note": "Google API key in source"
+      },
+      {
+        "case": "hp-secret-sendgrid-key",
+        "class": "secret",
+        "source": "literal",
+        "language": "python",
+        "note": "SendGrid API key in source"
+      },
+      {
+        "case": "hp-secret-db-url-password",
+        "class": "secret",
+        "source": "literal",
+        "language": "python",
+        "note": "database password embedded in a connection URL"
+      },
+      {
+        "case": "hp-sqli-fastapi-fstring",
+        "class": "sqli",
+        "source": "framework",
+        "language": "python",
+        "note": "FastAPI query parameter formatted into SQL"
+      },
+      {
+        "case": "hp-sqli-psycopg2-percent",
+        "class": "sqli",
+        "source": "bare_param",
+        "language": "python",
+        "note": "function argument %-formatted into a query"
+      },
+      {
+        "case": "hp-sqli-django-cursor-concat",
+        "class": "sqli",
+        "source": "framework",
+        "language": "python",
+        "note": "request value concatenated into a raw cursor query"
+      },
+      {
+        "case": "hp-xss-django-mark-safe",
+        "class": "xss",
+        "source": "framework",
+        "language": "python",
+        "note": "request value marked safe and returned"
+      },
+      {
+        "case": "hp-xss-fastapi-htmlresponse",
+        "class": "xss",
+        "source": "framework",
+        "language": "python",
+        "note": "FastAPI parameter in an HTML f-string response"
+      }
+    ],
+    "detected": [
+      {
+        "case": "hj-eval-vm-run",
+        "rules": [
+          "javascript.express.security.express-vm-injection.express-vm-injection"
+        ],
+        "class_correct": true
+      },
+      {
+        "case": "hj-sqli-sequelize-query",
+        "rules": [
+          "javascript.sequelize.security.audit.sequelize-injection-express.express-sequelize-injection"
+        ],
+        "class_correct": true
+      },
+      {
+        "case": "hj-xss-express-write",
+        "rules": [
+          "javascript.express.security.audit.xss.direct-response-write.direct-response-write",
+          "javascript.express.security.injection.raw-html-format.raw-html-format"
+        ],
+        "class_correct": true
+      },
+      {
+        "case": "hp-eval-flask-exec",
+        "rules": [
+          "python.flask.security.injection.user-exec.exec-injection"
+        ],
+        "class_correct": true
+      },
+      {
+        "case": "hp-eval-django-eval-post",
+        "rules": [
+          "python.django.security.injection.code.user-eval.user-eval"
+        ],
+        "class_correct": true
+      },
+      {
+        "case": "hp-path-flask-open-form",
+        "rules": [
+          "python.django.security.injection.path-traversal.path-traversal-open.path-traversal-open",
+          "python.flask.security.injection.path-traversal-open.path-traversal-open"
+        ],
+        "class_correct": true
+      },
+      {
+        "case": "hp-secret-jwt-encode",
+        "rules": [
+          "python.jwt.security.jwt-hardcode.jwt-python-hardcoded-secret"
+        ],
+        "class_correct": false
+      },
+      {
+        "case": "hp-sqli-sqlalchemy-text-fstring",
+        "rules": [
+          "python.flask.security.injection.tainted-sql-string.tainted-sql-string",
+          "python.sqlalchemy.security.audit.avoid-sqlalchemy-text.avoid-sqlalchemy-text"
+        ],
+        "class_correct": true
+      },
+      {
+        "case": "hp-xss-django-httpresponse-fstring",
+        "rules": [
+          "python.django.security.injection.raw-html-format.raw-html-format",
+          "python.django.security.injection.reflected-data-httpresponse.reflected-data-httpresponse"
+        ],
+        "class_correct": true
+      },
+      {
+        "case": "hp-xss-flask-make-response",
+        "rules": [
+          "python.django.security.injection.raw-html-format.raw-html-format",
+          "python.flask.security.injection.raw-html-concat.raw-html-format"
+        ],
+        "class_correct": true
+      }
+    ],
+    "false_positive_findings": [
+      {
+        "file": "python/path_traversal.py",
+        "start_line": 48,
+        "end_line": 48,
+        "rule_id": "python.flask.security.injection.path-traversal-open.path-traversal-open",
+        "class": "path_traversal",
+        "cwe": [
+          "CWE-22: Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
+        ],
+        "where": "safe_case",
+        "case": "hp-path-secure-filename"
+      },
+      {
+        "file": "javascript/path_traversal.js",
+        "start_line": 29,
+        "end_line": 29,
+        "rule_id": "javascript.express.security.audit.express-path-join-resolve-traversal.express-path-join-resolve-traversal",
+        "class": "path_traversal",
+        "cwe": [
+          "CWE-22: Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
+        ],
+        "where": "safe_case",
+        "case": "hj-path-basename-stream"
+      }
+    ]
+  }
+}

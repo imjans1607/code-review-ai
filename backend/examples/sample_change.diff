@@ -1,0 +1,31 @@
+diff --git a/auth/login.py b/auth/login.py
+--- a/auth/login.py
++++ b/auth/login.py
+@@ -1,8 +1,12 @@
+ import sqlite3
+
+
+-def get_user(conn, username):
+-    cur = conn.cursor()
+-    cur.execute("SELECT * FROM users WHERE name = '" + username + "'")
+-    return cur.fetchone()
++def get_user(conn, username):
++    cur = conn.cursor()
++    query = "SELECT * FROM users WHERE name = '%s'" % username
++    cur.execute(query)
++    row = cur.fetchone()
++    return row
++
++API_KEY = "EXAMPLE_FAKE_KEY_DO_NOT_USE"
+diff --git a/utils/format.js b/utils/format.js
+--- a/utils/format.js
++++ b/utils/format.js
+@@ -3,4 +3,7 @@ export function slugify(text) {
+   return text.toLowerCase().trim().replace(/\s+/g, "-");
+ }
+
+-export function truncate(s, n) { return s.substring(0, n); }
++export function truncate(s, n) {
++  if (s == null) return "";
++  return s.substring(0, n) + "...";
++}

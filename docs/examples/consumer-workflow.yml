@@ -1,0 +1,42 @@
+# AI Code Review — drop-in workflow for ANY other repository.
+#
+# HOW TO USE (details in START_HERE.md):
+#   1. In the repo you want reviewed, create a file at
+#          .github/workflows/ai-code-review.yml
+#      and paste this whole file into it.
+#   2. Change ONE thing: the line marked  <-- EDIT THIS  (your GitHub username and
+#      the name of the repo where you uploaded your copy of this project).
+#   3. Commit. From now on every pull request in that repo gets reviewed.
+#
+# Keep the spaces at the start of each line exactly as they are. YAML is strict
+# about indentation, and a wrong number of spaces makes the workflow fail.
+
+name: AI Code Review
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: write     # lets the reviewer post comments on the pull request
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    steps:
+      # Download the code of the repo being reviewed (full history, so the reviewer
+      # can compare the pull request against its base branch).
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          fetch-depth: 0
+
+      # Run the reviewer from YOUR uploaded copy of this project.
+      # Example: if your GitHub username is sam and your copy is called code-review-ai,
+      # this line becomes:   - uses: sam/code-review-ai@main
+      - uses: YOUR-GITHUB-USERNAME/YOUR-COPY-REPO-NAME@main    # <-- EDIT THIS
+        # OPTIONAL, EXPERIMENTAL: AI comments on top of the security review.
+        # It is slower (it downloads a model) and has not been timed in CI.
+        # To try it, remove the "# " at the start of the next two lines:
+        # with:
+        #   model: Jabez0701/codereviewer-msg-pyjs

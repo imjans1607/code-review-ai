@@ -1,0 +1,79 @@
+name: "AI Code Review"
+description: "Automated code review — Semgrep security findings + optional AI review comments — posted on the pull request."
+branding:
+  icon: "shield"
+  color: "purple"
+
+inputs:
+  model:
+    description: "Hugging Face model id for the AI reviewer (e.g. your-username/codereviewer-msg-pyjs). Leave empty to run security-only (fast)."
+    required: false
+    default: ""
+  database-url:
+    description: "Optional PostgreSQL URL (store the full URL in a secret). When set, each CI review is saved there so the dashboard shows it; when empty, results are kept only for the life of the runner."
+    required: false
+    default: ""
+
+runs:
+  using: "composite"
+  steps:
+    - name: Set up Python
+      uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+      with:
+        python-version: "3.11"
+
+    - name: Install dependencies
+      shell: bash
+      run: |
+        pip install -r "$GITHUB_ACTION_PATH/backend/requirements.txt"
+        pip install semgrep
+
+    - name: Install AI dependencies (only when a model is set)
+      if: inputs.model != ''
+      shell: bash
+      run: pip install "transformers==4.44.2" torch --extra-index-url https://download.pytorch.org/whl/cpu
+
+    - name: Compute the PR diff
+      shell: bash
+      env:
+        BASE_REF: ${{ github.base_ref }}
+      run: |
+        git fetch origin "$BASE_REF" --depth=1
+        git diff "origin/$BASE_REF...HEAD" > change.diff
+
+    - name: Run Semgrep security scan
+      shell: bash
+      run: |
+        # Keep this list identical to DEFAULT_CONFIGS in
+        # backend/app/security/semgrep_scanner.py (a test checks they match).
+        semgrep --json --quiet \
+          --config p/python --config p/javascript \
+          --config p/owasp-top-ten --config p/secrets \
+          --config p/security-audit --config p/expressjs --config p/gitleaks \
+          --config r/javascript.browser.security.eval-detected.eval-detected \
+          --config r/javascript.lang.security.audit.sqli.node-mysql-sqli.node-mysql-sqli \
+          --config r/python.lang.security.audit.exec-detected.exec-detected \
+          --config r/python.sqlalchemy.security.sqlalchemy-execute-raw-query.sqlalchemy-execute-raw-query \
+          --config r/python.lang.security.audit.formatted-sql-query.formatted-sql-query \
+          --config r/python.flask.security.xss.audit.explicit-unescape-with-markup.explicit-unescape-with-markup \
+          --config "$GITHUB_ACTION_PATH/backend/app/security/rules" \
+          --output semgrep.json . || true
+
+    - name: Review and post comments
+      shell: bash
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+        AI_MODEL_PATH: ${{ inputs.model }}
+        REPO: ${{ github.repository }}
+        PR_NUMBER: ${{ github.event.pull_request.number }}
+        HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        PR_AUTHOR: ${{ github.event.pull_request.user.login }}
+        DATABASE_URL: ${{ inputs.database-url }}
+      run: |
+        python "$GITHUB_ACTION_PATH/scripts/run_review.py" \
+          --diff change.diff \
+          --semgrep semgrep.json \
+          --repo "$REPO" \
+          --pr "$PR_NUMBER" \
+          --commit "$HEAD_SHA" \
+          --author "$PR_AUTHOR"

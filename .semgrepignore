@@ -1,0 +1,10 @@
+# Keep the labeled Semgrep evaluation suite (deliberately vulnerable, with fake secrets)
+# and its saved results out of normal code-review scans.
+backend/eval/
+docs/evaluation/
+
+# Files the CI workflow generates at the repo root. Scanning the PR diff would
+# only repeat every finding already reported against the real files (and the
+# suite's fake credentials, which appear in this PR's own diff).
+/change.diff
+/semgrep.json

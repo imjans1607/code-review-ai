@@ -1,0 +1,47 @@
+rules:
+  # Path built from request or function-parameter input, then opened or served.
+  #
+  # The registry packs only start from framework sources (e.g. Flask's
+  # request.args) for some sinks, and never treat a plain function parameter as
+  # input. This rule covers both for the file-access sinks below.
+  #
+  # Confidence is LOW: a function parameter is not always attacker-controlled,
+  # so findings are Medium severity, never Critical.
+  - id: codereview.python.path-from-input-reaches-file-access
+    mode: taint
+    languages: [python]
+    severity: WARNING
+    message: >-
+      A file path built from request data or a function parameter reaches a
+      file-access call. If the value can be influenced by a user it may contain
+      "../" and escape the intended directory (path traversal). Reduce it to a
+      file name with os.path.basename()/secure_filename(), or resolve the path
+      and verify it stays inside the base directory.
+    metadata:
+      category: security
+      cwe:
+        - "CWE-22: Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
+      owasp:
+        - "A01:2021 - Broken Access Control"
+      confidence: LOW
+      likelihood: MEDIUM
+      impact: MEDIUM
+      source: codereview-custom
+    pattern-sources:
+      - pattern: request.$ATTR
+      - patterns:
+          - pattern-inside: |
+              def $F(..., $P, ...):
+                ...
+          - pattern: os.path.join(..., $P, ...)
+    pattern-sinks:
+      - patterns:
+          - pattern: open($PATH, ...)
+          - focus-metavariable: $PATH
+      - patterns:
+          - pattern: send_file($PATH, ...)
+          - focus-metavariable: $PATH
+    pattern-sanitizers:
+      - pattern: os.path.basename(...)
+      - pattern: secure_filename(...)
+      - pattern: werkzeug.utils.secure_filename(...)

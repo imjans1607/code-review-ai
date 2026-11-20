@@ -1,0 +1,520 @@
+{
+  "meta": {
+    "date_utc": "2026-11-18T03:35:55+00:00",
+    "semgrep_version": "1.186.0",
+    "configs": [
+      "p/python",
+      "p/javascript",
+      "p/owasp-top-ten",
+      "p/secrets"
+    ],
+    "labels_sha256": "347abb99db678107324a24d1da0fdc1af8b6c52e0d8aaa21fbb2247ea8e6f4df",
+    "platform": "Windows-10-10.0.26300-SP0"
+  },
+  "metrics": {
+    "counts": {
+      "cases": 60,
+      "vulnerable_cases": 37,
+      "safe_cases": 23,
+      "true_positives": 15,
+      "false_negatives": 22,
+      "false_positives": 4,
+      "false_positives_in_target_classes": 4,
+      "duplicate_findings_on_detected_sinks": 8,
+      "class_correct_detections": 14,
+      "findings_in_suite_files": 27
+    },
+    "precision": {
+      "value": 0.789,
+      "successes": 15,
+      "n": 19,
+      "ci95": [
+        0.567,
+        0.915
+      ]
+    },
+    "precision_target_classes_only": {
+      "value": 0.789,
+      "successes": 15,
+      "n": 19,
+      "ci95": [
+        0.567,
+        0.915
+      ]
+    },
+    "recall": {
+      "value": 0.405,
+      "successes": 15,
+      "n": 37,
+      "ci95": [
+        0.263,
+        0.565
+      ]
+    },
+    "recall_class_correct": {
+      "value": 0.378,
+      "successes": 14,
+      "n": 37,
+      "ci95": [
+        0.241,
+        0.539
+      ]
+    },
+    "safe_cases_with_false_positives": {
+      "value": 0.087,
+      "successes": 2,
+      "n": 23,
+      "ci95": [
+        0.024,
+        0.268
+      ]
+    },
+    "by_class": {
+      "sqli": {
+        "recall": {
+          "value": 0.375,
+          "successes": 3,
+          "n": 8,
+          "ci95": [
+            0.137,
+            0.694
+          ]
+        },
+        "false_positives": 0
+      },
+      "xss": {
+        "recall": {
+          "value": 0.5,
+          "successes": 4,
+          "n": 8,
+          "ci95": [
+            0.215,
+            0.785
+          ]
+        },
+        "false_positives": 2
+      },
+      "secret": {
+        "recall": {
+          "value": 0.556,
+          "successes": 5,
+          "n": 9,
+          "ci95": [
+            0.267,
+            0.811
+          ]
+        },
+        "false_positives": 0
+      },
+      "path_traversal": {
+        "recall": {
+          "value": 0.167,
+          "successes": 1,
+          "n": 6,
+          "ci95": [
+            0.03,
+            0.564
+          ]
+        },
+        "false_positives": 2
+      },
+      "eval": {
+        "recall": {
+          "value": 0.333,
+          "successes": 2,
+          "n": 6,
+          "ci95": [
+            0.097,
+            0.7
+          ]
+        },
+        "false_positives": 0
+      }
+    },
+    "recall_by_language": {
+      "javascript": {
+        "value": 0.389,
+        "successes": 7,
+        "n": 18,
+        "ci95": [
+          0.203,
+          0.614
+        ]
+      },
+      "python": {
+        "value": 0.421,
+        "successes": 8,
+        "n": 19,
+        "ci95": [
+          0.231,
+          0.637
+        ]
+      }
+    },
+    "recall_by_source": {
+      "bare_param": {
+        "value": 0.091,
+        "successes": 1,
+        "n": 11,
+        "ci95": [
+          0.016,
+          0.377
+        ]
+      },
+      "browser_source": {
+        "value": 0.0,
+        "successes": 0,
+        "n": 2,
+        "ci95": [
+          0.0,
+          0.658
+        ]
+      },
+      "framework": {
+        "value": 0.6,
+        "successes": 9,
+        "n": 15,
+        "ci95": [
+          0.357,
+          0.802
+        ]
+      },
+      "literal": {
+        "value": 0.556,
+        "successes": 5,
+        "n": 9,
+        "ci95": [
+          0.267,
+          0.811
+        ]
+      }
+    },
+    "targets": {
+      "precision": 0.9,
+      "recall": 0.85,
+      "precision_met": false,
+      "recall_met": false
+    },
+    "missed": [
+      {
+        "case": "js-eval-bare",
+        "class": "eval",
+        "source": "bare_param",
+        "language": "javascript",
+        "note": "function argument passed to eval"
+      },
+      {
+        "case": "js-eval-new-function",
+        "class": "eval",
+        "source": "bare_param",
+        "language": "javascript",
+        "note": "function argument compiled with the Function constructor"
+      },
+      {
+        "case": "js-path-express-readfile",
+        "class": "path_traversal",
+        "source": "framework",
+        "language": "javascript",
+        "note": "request value joined into a path and read"
+      },
+      {
+        "case": "js-path-bare-readfile",
+        "class": "path_traversal",
+        "source": "bare_param",
+        "language": "javascript",
+        "note": "function argument concatenated into a path and read"
+      },
+      {
+        "case": "js-secret-github-token",
+        "class": "secret",
+        "source": "literal",
+        "language": "javascript",
+        "note": "GitHub personal access token in source"
+      },
+      {
+        "case": "js-sqli-express-concat",
+        "class": "sqli",
+        "source": "framework",
+        "language": "javascript",
+        "note": "request value concatenated into a query"
+      },
+      {
+        "case": "js-sqli-express-template",
+        "class": "sqli",
+        "source": "framework",
+        "language": "javascript",
+        "note": "request value in a template-literal query"
+      },
+      {
+        "case": "js-sqli-bare-concat",
+        "class": "sqli",
+        "source": "bare_param",
+        "language": "javascript",
+        "note": "function argument concatenated into a query"
+      },
+      {
+        "case": "js-xss-innerhtml-bare",
+        "class": "xss",
+        "source": "bare_param",
+        "language": "javascript",
+        "note": "function argument written to innerHTML"
+      },
+      {
+        "case": "js-xss-innerhtml-location",
+        "class": "xss",
+        "source": "browser_source",
+        "language": "javascript",
+        "note": "location.hash written to innerHTML"
+      },
+      {
+        "case": "js-xss-document-write",
+        "class": "xss",
+        "source": "browser_source",
+        "language": "javascript",
+        "note": "location.search written with document.write"
+      },
+      {
+        "case": "py-eval-bare",
+        "class": "eval",
+        "source": "bare_param",
+        "language": "python",
+        "note": "function argument passed to eval"
+      },
+      {
+        "case": "py-exec-bare",
+        "class": "eval",
+        "source": "bare_param",
+        "language": "python",
+        "note": "function argument passed to exec"
+      },
+      {
+        "case": "py-path-flask-open",
+        "class": "path_traversal",
+        "source": "framework",
+        "language": "python",
+        "note": "request value joined into a path and opened"
+      },
+      {
+        "case": "py-path-flask-send-file",
+        "class": "path_traversal",
+        "source": "framework",
+        "language": "python",
+        "note": "request value passed straight to send_file"
+      },
+      {
+        "case": "py-path-bare-open",
+        "class": "path_traversal",
+        "source": "bare_param",
+        "language": "python",
+        "note": "function argument joined into a path and opened"
+      },
+      {
+        "case": "py-secret-github-token",
+        "class": "secret",
+        "source": "literal",
+        "language": "python",
+        "note": "GitHub personal access token in source"
+      },
+      {
+        "case": "py-secret-slack-token",
+        "class": "secret",
+        "source": "literal",
+        "language": "python",
+        "note": "Slack bot token in source"
+      },
+      {
+        "case": "py-secret-db-password",
+        "class": "secret",
+        "source": "literal",
+        "language": "python",
+        "note": "database password assigned as a string literal"
+      },
+      {
+        "case": "py-sqli-bare-concat",
+        "class": "sqli",
+        "source": "bare_param",
+        "language": "python",
+        "note": "function argument concatenated into SQL"
+      },
+      {
+        "case": "py-sqli-bare-format",
+        "class": "sqli",
+        "source": "bare_param",
+        "language": "python",
+        "note": "function argument %-formatted into SQL"
+      },
+      {
+        "case": "py-xss-flask-markup",
+        "class": "xss",
+        "source": "framework",
+        "language": "python",
+        "note": "request value marked safe with Markup"
+      }
+    ],
+    "detected": [
+      {
+        "case": "js-eval-express",
+        "rules": [
+          "javascript.lang.security.audit.code-string-concat.code-string-concat"
+        ],
+        "class_correct": true
+      },
+      {
+        "case": "js-path-express-sendfile",
+        "rules": [
+          "javascript.express.security.audit.express-res-sendfile.express-res-sendfile"
+        ],
+        "class_correct": true
+      },
+      {
+        "case": "js-secret-aws-keys",
+        "rules": [
+          "generic.secrets.security.detected-aws-access-key-id-value.detected-aws-access-key-id-value",
+          "generic.secrets.security.detected-aws-secret-access-key.detected-aws-secret-access-key"
+        ],
+        "class_correct": true
+      },
+      {
+        "case": "js-secret-stripe-live",
+        "rules": [
+          "generic.secrets.security.detected-stripe-api-key.detected-stripe-api-key"
+        ],
+        "class_correct": true
+      },
+      {
+        "case": "js-secret-jwt-secret",
+        "rules": [
+          "javascript.jsonwebtoken.security.jwt-hardcode.hardcoded-jwt-secret"
+        ],
+        "class_correct": true
+      },
+      {
+        "case": "js-xss-express-send",
+        "rules": [
+          "javascript.express.security.audit.xss.direct-response-write.direct-response-write",
+          "javascript.express.security.injection.raw-html-format.raw-html-format"
+        ],
+        "class_correct": true
+      },
+      {
+        "case": "jsx-xss-dangerously-set",
+        "rules": [
+          "typescript.react.security.audit.react-dangerouslysetinnerhtml.react-dangerouslysetinnerhtml"
+        ],
+        "class_correct": true
+      },
+      {
+        "case": "py-eval-flask",
+        "rules": [
+          "python.django.security.injection.code.user-eval.user-eval",
+          "python.flask.security.injection.user-eval.eval-injection"
+        ],
+        "class_correct": true
+      },
+      {
+        "case": "py-secret-aws-keys",
+        "rules": [
+          "generic.secrets.security.detected-aws-access-key-id-value.detected-aws-access-key-id-value",
+          "generic.secrets.security.detected-aws-secret-access-key.detected-aws-secret-access-key"
+        ],
+        "class_correct": true
+      },
+      {
+        "case": "py-secret-stripe-live",
+        "rules": [
+          "generic.secrets.security.detected-stripe-api-key.detected-stripe-api-key"
+        ],
+        "class_correct": true
+      },
+      {
+        "case": "py-sqli-flask-concat",
+        "rules": [
+          "python.flask.security.injection.tainted-sql-string.tainted-sql-string"
+        ],
+        "class_correct": false
+      },
+      {
+        "case": "py-sqli-flask-fstring",
+        "rules": [
+          "python.django.security.injection.sql.sql-injection-using-db-cursor-execute.sql-injection-db-cursor-execute",
+          "python.flask.security.injection.tainted-sql-string.tainted-sql-string"
+        ],
+        "class_correct": true
+      },
+      {
+        "case": "py-sqli-django-raw",
+        "rules": [
+          "python.django.security.injection.sql.sql-injection-using-raw.sql-injection-using-raw"
+        ],
+        "class_correct": true
+      },
+      {
+        "case": "py-xss-flask-returned-fstring",
+        "rules": [
+          "python.django.security.injection.raw-html-format.raw-html-format",
+          "python.flask.security.audit.directly-returned-format-string.directly-returned-format-string",
+          "python.flask.security.injection.raw-html-concat.raw-html-format"
+        ],
+        "class_correct": true
+      },
+      {
+        "case": "py-xss-flask-template-string",
+        "rules": [
+          "python.django.security.injection.raw-html-format.raw-html-format",
+          "python.flask.security.injection.raw-html-concat.raw-html-format"
+        ],
+        "class_correct": true
+      }
+    ],
+    "false_positive_findings": [
+      {
+        "file": "javascript/path_traversal.js",
+        "start_line": 10,
+        "end_line": 10,
+        "rule_id": "javascript.express.security.audit.express-path-join-resolve-traversal.express-path-join-resolve-traversal",
+        "class": "path_traversal",
+        "cwe": [
+          "CWE-22: Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
+        ],
+        "where": "vulnerable_case_off_sink",
+        "case": "js-path-express-readfile"
+      },
+      {
+        "file": "javascript/path_traversal.js",
+        "start_line": 31,
+        "end_line": 31,
+        "rule_id": "javascript.express.security.audit.express-path-join-resolve-traversal.express-path-join-resolve-traversal",
+        "class": "path_traversal",
+        "cwe": [
+          "CWE-22: Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
+        ],
+        "where": "safe_case",
+        "case": "js-path-basename"
+      },
+      {
+        "file": "python/xss.py",
+        "start_line": 42,
+        "end_line": 42,
+        "rule_id": "python.flask.security.audit.directly-returned-format-string.directly-returned-format-string",
+        "class": "xss",
+        "cwe": [
+          "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+        ],
+        "where": "safe_case",
+        "case": "py-xss-flask-escape"
+      },
+      {
+        "file": "python/xss.py",
+        "start_line": 42,
+        "end_line": 42,
+        "rule_id": "python.django.security.injection.raw-html-format.raw-html-format",
+        "class": "xss",
+        "cwe": [
+          "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+        ],
+        "where": "safe_case",
+        "case": "py-xss-flask-escape"
+      }
+    ]
+  }
+}
